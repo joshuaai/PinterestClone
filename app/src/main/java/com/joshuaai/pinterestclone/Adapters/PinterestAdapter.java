@@ -4,14 +4,15 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
-import com.joshuaai.pinterestclone.Models.CustomVolleyRequestQueue;
-import com.joshuaai.pinterestclone.Models.UserImages;
+import com.joshuaai.pinterestclone.Models.UserImage;
 import com.joshuaai.pinterestclone.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -23,9 +24,9 @@ public class PinterestAdapter extends RecyclerView.Adapter<PinterestAdapter.Pint
 
     private Context aContext;
     private ImageLoader imageLoader;
-    List<UserImages> userImages;
+    List<UserImage> userImages;
 
-    public PinterestAdapter(List<UserImages> mUserImages, Context mContext) {
+    public PinterestAdapter(List<UserImage> mUserImages, Context mContext) {
         super();
         //Getting all the images
         this.userImages = mUserImages;
@@ -42,15 +43,19 @@ public class PinterestAdapter extends RecyclerView.Adapter<PinterestAdapter.Pint
     @Override
     public void onBindViewHolder(PinterestViewHolder pinterestHolder, int position) {
 
-        UserImages userImagesBind = userImages.get(position);
+        UserImage userImageBind = userImages.get(position);
 
-        imageLoader = CustomVolleyRequestQueue.getInstance(aContext).getImageLoader();
-        imageLoader.get(userImagesBind.getImageUrl(), ImageLoader.getImageListener(pinterestHolder.networkImageView,
-                                                    R.mipmap.ic_launcher, android.R.drawable.ic_dialog_alert));
+//      imageLoader = CustomVolleyRequestQueue.getInstance(aContext).getImageLoader();
+//      imageLoader.get(userImageBind.getImageUrl(), ImageLoader.getImageListener(pinterestHolder.imageView,
+//                                                    R.mipmap.ic_launcher, android.R.drawable.ic_dialog_alert));
 
-        pinterestHolder.networkImageView.setImageUrl(userImagesBind.getImageUrl(), imageLoader);
-        pinterestHolder.textViewName.setText(userImagesBind.getTitle());
-        pinterestHolder.textViewDescription.setText(userImagesBind.getDescription());
+//      pinterestHolder.imageView.setImageUrl(userImageBind.getImageUrl(), imageLoader);
+        Picasso.with(aContext)
+                .load(userImageBind.getImageUrl())
+                .placeholder(R.mipmap.ic_launcher)
+                .into(pinterestHolder.imageView);
+        pinterestHolder.textViewName.setText(userImageBind.getTitle());
+        pinterestHolder.textViewDescription.setText(userImageBind.getDescription());
     }
 
     @Override
@@ -59,12 +64,12 @@ public class PinterestAdapter extends RecyclerView.Adapter<PinterestAdapter.Pint
     }
 
     class PinterestViewHolder extends RecyclerView.ViewHolder {
-        public NetworkImageView networkImageView;
+        public ImageView imageView;
         public TextView textViewName, textViewDescription;
 
         public PinterestViewHolder (View itemView) {
             super(itemView);
-            networkImageView = (NetworkImageView) itemView.findViewById(R.id.networkImageView);
+            imageView = (ImageView) itemView.findViewById(R.id.networkImageView);
             textViewName = (TextView) itemView.findViewById(R.id.img_name);
             textViewDescription = (TextView)  itemView.findViewById(R.id.img_description);
         }

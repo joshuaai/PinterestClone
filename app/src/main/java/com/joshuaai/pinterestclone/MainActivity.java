@@ -22,7 +22,7 @@ import org.json.JSONObject;
 import com.joshuaai.pinterestclone.Adapters.PinterestAdapter;
 import com.joshuaai.pinterestclone.Models.Config;
 import com.joshuaai.pinterestclone.Models.SpaceItemDecoration;
-import com.joshuaai.pinterestclone.Models.UserImages;
+import com.joshuaai.pinterestclone.Models.UserImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar mToolbar;
 
     //Creating list of user images
-    private List<UserImages> userImagesList;
+    private List<UserImage> userImageList;
 
     // Creating views
     private RecyclerView mRecyclerView;
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         SpaceItemDecoration decoration = new SpaceItemDecoration(16);
         mRecyclerView.addItemDecoration(decoration);
 
-        userImagesList = new ArrayList<>();
+        userImageList = new ArrayList<>();
 
         getData();
 
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     //This method will parse json data
     private void parseData(JSONArray array) {
         for (int i = 0; i < array.length(); i++) {
-            UserImages image = new UserImages();
+            UserImage image = new UserImage();
             JSONObject jsonObject;
             try {
                 jsonObject = array.getJSONObject(i);
@@ -105,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            userImagesList.add(image);
+            userImageList.add(image);
         }
-        pinterestAdapter = new PinterestAdapter(userImagesList, this);
+        pinterestAdapter = new PinterestAdapter(userImageList, this);
         mRecyclerView.setAdapter(pinterestAdapter);
     }
 

@@ -4,7 +4,7 @@ package com.joshuaai.pinterestclone.Models;
  * Created by Joshua A I on 3/22/2017.
  */
 
-public class UserImages {
+public class UserImage {
 
     //Data variables
     private String imageUrl;
